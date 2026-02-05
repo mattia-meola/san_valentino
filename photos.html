@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Nostri Momenti ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a0a0f 0%, #2d1420 100%);
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Cuori che cadono */
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart-fall {
+            position: absolute;
+            font-size: 20px;
+            color: #ff6b9d;
+            opacity: 0.4;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        /* Effetti di transizione alternati */
+        .slide.fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .slide.zoom-in {
+            animation: zoomIn 1s ease-in-out;
+        }
+
+        .slide.slide-left {
+            animation: slideLeft 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideLeft {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .slide img {
+            max-width: 80%;
+            max-height: 70%;
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            margin-bottom: 30px;
+        }
+
+        /* Didascalia sotto la foto */
+        .caption {
+            color: #fff5f7;
+            font-size: 22px;
+            font-weight: 600;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            max-width: 80%;
+            line-height: 1.5;
+        }
+
+        .counter {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff5f7;
+            font-size: 18px;
+            background: rgba(255, 45, 85, 0.9);
+            padding: 12px 24px;
+            border-radius: 25px;
+            z-index: 100;
+            box-shadow: 0 8px 20px rgba(255, 45, 85, 0.4);
+        }
+
+        /* Messaggio finale */
+        .final-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a0a0f 0%, #2d1420 100%);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 40px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .final-message.show {
+            display: flex;
+        }
+
+        .final-message h2 {
+            font-size: 48px;
+            color: #ff6b9d;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(255, 107, 157, 0.6);
+        }
+
+        .final-message p {
+            font-size: 24px;
+            color: #fff5f7;
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .final-message .heart-big {
+            font-size: 80px;
+            animation: beat 1.2s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 45, 85, 0.6));
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            10%, 30% { transform: scale(0.9); }
+            20%, 40% { transform: scale(1.1); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .slide img {
+                max-width: 90%;
+                max-height: 60%;
+            }
+
+            .caption {
+                font-size: 18px;
+                max-width: 90%;
+            }
+
+            .counter {
+                font-size: 16px;
+                padding: 10px 20px;
+                bottom: 20px;
+            }
+
+            .final-message h2 {
+                font-size: 32px;
+            }
+
+            .final-message p {
+                font-size: 18px;
+            }
+
+            .final-message .heart-big {
+                font-size: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cuori che cadono -->
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <div class="slideshow-container" id="slideshow">
+        <!-- Foto 1 -->
+        <div class="slide active fade-in">
+            <img src="https://via.placeholder.com/800x600/ff2d55/ffffff?text=Foto+1" alt="Momento 1">
+            <div class="caption">Il nostro primo momento insieme 💕</div>
+        </div>
+
+        <!-- Foto 2 -->
+        <div class="slide zoom-in">
+            <img src="https://via.placeholder.com/800x600/ff6b9d/ffffff?text=Foto+2" alt="Momento 2">
+            <div class="caption">Ricordi che restano nel cuore ❤️</div>
+        </div>
+
+        <!-- Foto 3 -->
+        <div class="slide slide-left">
+            <img src="https://via.placeholder.com/800x600/ffd93d/ffffff?text=Foto+3" alt="Momento 3">
+            <div class="caption">Sorrisi che illuminano la giornata ✨</div>
+        </div>
+
+        <!-- Foto 4 -->
+        <div class="slide fade-in">
+            <img src="https://via.placeholder.com/800x600/ff9ff3/ffffff?text=Foto+4" alt="Momento 4">
+            <div class="caption">Momenti indimenticabili insieme 🌟</div>
+        </div>
+
+        <!-- Foto 5 -->
+        <div class="slide zoom-in">
+            <img src="https://via.placeholder.com/800x600/00d4ff/ffffff?text=Foto+5" alt="Momento 5">
+            <div class="caption">E tanti altri ancora da vivere 💫</div>
+        </div>
+    </div>
+
+    <!-- Contatore -->
+    <div class="counter">
+        <span id="current">1</span> / <span id="total">5</span>
+    </div>
+
+    <!-- Messaggio finale -->
+    <div class="final-message" id="finalMessage">
+        <div class="heart-big">💝</div>
+        <h2>Ti amo!</h2>
+        <p>Grazie per tutti questi momenti meravigliosi. Non vedo l'ora di passare San Valentino con te e creare tanti altri ricordi insieme. Sei la persona più speciale della mia vita! ❤️</p>
+    </div>
+
+    <script>
+        // Crea cuori che cadono
+        function createFallingHearts() {
+            const container = document.getElementById('heartsBg');
+            const heartsCount = 20;
+            
+            for (let i = 0; i < heartsCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-fall';
+                heart.textContent = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 4 + 5) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                container.appendChild(heart);
+            }
+        }
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const transitionClasses = ['fade-in', 'zoom-in', 'slide-left'];
+        
+        document.getElementById('total').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            // Rimuove tutte le classi di transizione
+            slides[index].classList.remove('fade-in', 'zoom-in', 'slide-left');
+            
+            // Aggiunge una classe di transizione casuale
+            const randomTransition = transitionClasses[Math.floor(Math.random() * transitionClasses.length)];
+            slides[index].classList.add(randomTransition);
+            
+            slides[index].classList.add('active');
+            document.getElementById('current').textContent = index + 1;
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            
+            // Se ha finito tutte le foto, mostra il messaggio finale
+            if (currentSlide >= totalSlides) {
+                document.getElementById('finalMessage').classList.add('show');
+                return;
+            }
+            
+            showSlide(currentSlide);
+        }
+
+        // Inizializza cuori
+        createFallingHearts();
+
+        // Cambia foto ogni 3 secondi
+        setInterval(nextSlide, 3000);
+    </script>
+</body>
+</html>
