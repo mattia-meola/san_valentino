@@ -83,6 +83,16 @@
             display: flex;
         }
 
+        /* Container per le due foto affiancate */
+        .photo-pair {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            max-height: 70vh;
+        }
+
         /* Effetti di transizione alternati */
         .slide.fade-in {
             animation: fadeIn 1s ease-in-out;
@@ -112,12 +122,11 @@
         }
 
         .slide img {
-            max-width: 80%;
-            max-height: 70%;
+            max-width: 40%;
+            max-height: 65vh;
             object-fit: contain;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-            margin-bottom: 30px;
         }
 
         /* Didascalia sotto la foto */
@@ -196,13 +205,14 @@
 
         /* Responsive */
         @media (max-width: 600px) {
-            .slide img {
-                max-width: 45%;
-                max-height: 50%;
+            .photo-pair {
+                flex-direction: column;
+                gap: 15px;
             }
 
-            .photo-pair {
-                gap: 10px;
+            .slide img {
+                max-width: 85%;
+                max-height: 40vh;
             }
 
             .caption {
